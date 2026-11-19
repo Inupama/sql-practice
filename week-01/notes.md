@@ -1,42 +1,31 @@
-# Week 1: PostgreSQL Medium Level Problems by Leetcode
+# Week 1 · Medium LeetCode Problems in PostgreSQL
 
-###Problem 1 
+### 1. Managers with at Least 5 Direct Reports (570)
 
--Problem - 570. Managers with at Least 5 Direct Reports
--Tricky part - Understanding WHERE id IN (...)
--Solution - Group employees by managerId, keep groups with at least five employees, then match those manager IDs to employee IDs to get their names.
+- **Tricky part** — Understanding how `WHERE id IN (...)` matches employee IDs to the manager IDs returned by the subquery.
+- **Solution** — Group employees by `managerId`, keep groups with at least five employees, then look up the managers’ names.
 
+### 2. Confirmation Rate (1934)
 
-###Problem 2
+- **Tricky part** — Keeping users who made no requests.
+- **Solution** — Use `LEFT JOIN` to keep all users. Assign `1` to confirmed requests and `0` to other rows, then average per user and round to two decimal places.
 
--Problem - 1934. Confirmation Rate
--Tricky part - `LEFT JOIN` keeps users who made no requests.
--Solution - `LEFT JOIN` signups to requests, group by user, give confirmed requests `1` and other rows `0`, then average and round to two decimal places.
+### 3. Monthly Transactions I (1193)
 
+- **Tricky part** — Showing `0` when there are no approved transactions.
+- **Solution** — Group by year-month and country. Use `COUNT` and `SUM` for all transactions, `FILTER` for approved transactions, and `COALESCE` to turn a missing approved total into `0`.
 
-###Problem 3
+### 4. Second Highest Salary (176)
 
--Problem - 1193. Monthly Transactions I
--Tricky part - COALESCE shows 0 when there are no approved transactions.
--Solution - Group by year-month and country. Use COUNT and SUM for all transactions, and FILTER to count and sum only approved ones.
+- **Tricky part** — Skipping every copy of the highest salary.
+- **Solution** — Find the highest salary, then use `MAX()` on salaries strictly below it. If none remain, `MAX()` returns `NULL`.
 
+### 5. Immediate Food Delivery II (1174)
 
-###Problem 4
+- **Tricky part** — Matching both `customer_id` and the earliest `order_date` to keep each customer’s first order.
+- **Solution** — Find the first order with `MIN(order_date)` per customer. Assign `1` if the order and preferred delivery dates match and `0` otherwise. Average, multiply by 100, and round to two decimal places.
 
--Problem - 176. Second Highest Salary
--Tricky part - Skip all copies of the highest salary.
--Solution - Find the highest salary, then use MAX() on salaries strictly below it. If none remain, MAX() returns NULL.
+### 6. Game Play Analysis IV (550)
 
-
-###Problem 5
-
--Problem - 1174. Immediate Food Delivery II
--Tricky part - Match both customer_id and the earliest order_date to keep only each customer’s first order.
--Solution - Use MIN(order_date) per customer. For those first orders, assign 1 if the preferred delivery date equals the order date and 0 otherwise. Average the values, multiply by 100, and round to two decimal places.
-
-
-###Problem 6
-
--Problem - 550. Game Play Analysis IV
--Tricky part - Check whether each player logged in exactly one day after their first login.
--Solution - Use MIN(event_date) to find each player’s first login. Use LEFT JOIN to check for a login the next day while keeping all players. Divide the number who returned by the total number of players and round to two decimals.
+- **Tricky part** — Checking for a login exactly one day after each player’s first login.
+- **Solution** — Find each player’s first login with `MIN(event_date)`. Use `LEFT JOIN` to check for a next-day login while keeping all players. Divide next-day returners by total players and round to two decimal places.
